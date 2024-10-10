@@ -55,8 +55,8 @@
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 2;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 90F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 92.9054F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 7.09459448F));
             tableLayoutPanel1.Size = new Size(914, 592);
             tableLayoutPanel1.TabIndex = 0;
             // 
@@ -67,7 +67,8 @@
             pictureBox1.Dock = DockStyle.Fill;
             pictureBox1.Location = new Point(3, 3);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(908, 526);
+            pictureBox1.Size = new Size(908, 544);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
@@ -80,9 +81,9 @@
             flowLayoutPanel1.Controls.Add(showButton);
             flowLayoutPanel1.Dock = DockStyle.Fill;
             flowLayoutPanel1.FlowDirection = FlowDirection.RightToLeft;
-            flowLayoutPanel1.Location = new Point(140, 535);
+            flowLayoutPanel1.Location = new Point(140, 553);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(771, 54);
+            flowLayoutPanel1.Size = new Size(771, 36);
             flowLayoutPanel1.TabIndex = 2;
             flowLayoutPanel1.Paint += flowLayoutPanel1_Paint;
             // 
@@ -134,7 +135,7 @@
             // 
             Stretch.Anchor = AnchorStyles.None;
             Stretch.AutoSize = true;
-            Stretch.Location = new Point(27, 552);
+            Stretch.Location = new Point(27, 561);
             Stretch.Name = "Stretch";
             Stretch.Size = new Size(83, 19);
             Stretch.TabIndex = 3;
@@ -147,7 +148,6 @@
             openFileDialog1.FileName = "openFileDialog1";
             openFileDialog1.Filter = "JPEG Files (*.jpg)|*.jpg|PNG Files (*.png)|*.png|BMP Files (*.bmp)|*.bmp|All files (*.*)|*.*";
             openFileDialog1.Title = "Select a picture file";
-            openFileDialog1.FileOk += openFileDialog1_FileOk;
             // 
             // Pildi_vaatamine
             // 
