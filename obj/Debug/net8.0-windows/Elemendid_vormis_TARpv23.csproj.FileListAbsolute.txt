@@ -19,3 +19,24 @@ C:\Users\Anton\Source\Repos\Elemendid_vormis\obj\Debug\net8.0-windows\refint\Ele
 C:\Users\Anton\Source\Repos\Elemendid_vormis\obj\Debug\net8.0-windows\Elemendid_vormis_TARpv23.pdb
 C:\Users\Anton\Source\Repos\Elemendid_vormis\obj\Debug\net8.0-windows\Elemendid_vormis_TARpv23.genruntimeconfig.cache
 C:\Users\Anton\Source\Repos\Elemendid_vormis\obj\Debug\net8.0-windows\ref\Elemendid_vormis_TARpv23.dll
+C:\Users\opilane\source\repos\Anton I\Elemendid_vormis\bin\Debug\net8.0-windows\Elemendid_vormis_TARpv23.exe
+C:\Users\opilane\source\repos\Anton I\Elemendid_vormis\bin\Debug\net8.0-windows\Elemendid_vormis_TARpv23.deps.json
+C:\Users\opilane\source\repos\Anton I\Elemendid_vormis\bin\Debug\net8.0-windows\Elemendid_vormis_TARpv23.runtimeconfig.json
+C:\Users\opilane\source\repos\Anton I\Elemendid_vormis\bin\Debug\net8.0-windows\Elemendid_vormis_TARpv23.dll
+C:\Users\opilane\source\repos\Anton I\Elemendid_vormis\bin\Debug\net8.0-windows\Elemendid_vormis_TARpv23.pdb
+C:\Users\opilane\source\repos\Anton I\Elemendid_vormis\obj\Debug\net8.0-windows\Elemendid_vormis_TARpv23.Araarvamismang.resources
+C:\Users\opilane\source\repos\Anton I\Elemendid_vormis\obj\Debug\net8.0-windows\Elemendid_vormis_TARpv23.Pildi_vaatamine.resources
+C:\Users\opilane\source\repos\Anton I\Elemendid_vormis\obj\Debug\net8.0-windows\Elemendid_vormis_TARpv23.Piltide_leidmine.resources
+C:\Users\opilane\source\repos\Anton I\Elemendid_vormis\obj\Debug\net8.0-windows\Elemendid_vormis_TARpv23.StartVorm.resources
+C:\Users\opilane\source\repos\Anton I\Elemendid_vormis\obj\Debug\net8.0-windows\Elemendid_vormis_TARpv23.TeineVorm.resources
+C:\Users\opilane\source\repos\Anton I\Elemendid_vormis\obj\Debug\net8.0-windows\Elemendid_vormis_TARpv23.csproj.GenerateResource.cache
+C:\Users\opilane\source\repos\Anton I\Elemendid_vormis\obj\Debug\net8.0-windows\Elemendid_vormis_TARpv23.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\opilane\source\repos\Anton I\Elemendid_vormis\obj\Debug\net8.0-windows\Elemendid_vormis_TARpv23.AssemblyInfoInputs.cache
+C:\Users\opilane\source\repos\Anton I\Elemendid_vormis\obj\Debug\net8.0-windows\Elemendid_vormis_TARpv23.AssemblyInfo.cs
+C:\Users\opilane\source\repos\Anton I\Elemendid_vormis\obj\Debug\net8.0-windows\Elemendid_vormis_TARpv23.csproj.CoreCompileInputs.cache
+C:\Users\opilane\source\repos\Anton I\Elemendid_vormis\obj\Debug\net8.0-windows\Elemendid_vormis_TARpv23.sourcelink.json
+C:\Users\opilane\source\repos\Anton I\Elemendid_vormis\obj\Debug\net8.0-windows\Elemendid_vormis_TARpv23.dll
+C:\Users\opilane\source\repos\Anton I\Elemendid_vormis\obj\Debug\net8.0-windows\refint\Elemendid_vormis_TARpv23.dll
+C:\Users\opilane\source\repos\Anton I\Elemendid_vormis\obj\Debug\net8.0-windows\Elemendid_vormis_TARpv23.pdb
+C:\Users\opilane\source\repos\Anton I\Elemendid_vormis\obj\Debug\net8.0-windows\Elemendid_vormis_TARpv23.genruntimeconfig.cache
+C:\Users\opilane\source\repos\Anton I\Elemendid_vormis\obj\Debug\net8.0-windows\ref\Elemendid_vormis_TARpv23.dll

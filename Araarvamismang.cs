@@ -17,5 +17,10 @@ namespace Elemendid_vormis_TARpv23
             this.Height = h;
             this.Width = w;
         }
+
+        private void Araarvamismang_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
