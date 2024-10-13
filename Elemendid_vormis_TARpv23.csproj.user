@@ -14,8 +14,5 @@
     <Compile Update="StartVorm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="TeineVorm.cs">
-      <SubType>Form</SubType>
-    </Compile>
   </ItemGroup>
 </Project>

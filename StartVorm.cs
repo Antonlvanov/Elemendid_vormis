@@ -1,4 +1,4 @@
-using Microsoft.VisualBasic;
+ï»¿using Microsoft.VisualBasic;
 using System.ComponentModel.Design;
 using System.Data;
 
@@ -6,8 +6,8 @@ namespace Elemendid_vormis_TARpv23
 {
     public partial class StartVorm : Form
     {
-        List<string> elemendid = new List<string> { "Nupp","Silt","Pilt","Märkeruut","Raadionupp", "Tekstikast","Loetelu","Tabel","Dialoogi aknad", "Kolm rakendust"};
-        List<string> rbtn_list = new List<string> { "Üks", "Kaks", "Kolm" };
+        List<string> elemendid = new List<string> { "Nupp","Silt","Pilt","MÃ¤rkeruut","Raadionupp", "Tekstikast","Loetelu","Tabel","Dialoogi aknad", "Kolm rakendust"};
+        List<string> rbtn_list = new List<string> { "Ãœks", "Kaks", "Kolm" };
         
         TreeView tree;
         Button btn, btn1, btn2, btn3;
@@ -25,9 +25,8 @@ namespace Elemendid_vormis_TARpv23
             this.Height = 500;
             this.Width = 700;
             this.Text = "Vorm elementidega";
+
             tree=new TreeView();
-            tree.Dock = DockStyle.Left;
-            tree.AfterSelect += Tree_AfterSelect;
             TreeNode tn = new TreeNode("Elemendid:");
             foreach (var element in elemendid)
             {
@@ -35,23 +34,33 @@ namespace Elemendid_vormis_TARpv23
             }
 
             tree.Nodes.Add(tn);
+            tree.Dock = DockStyle.Left;
             this.Controls.Add(tree);
-            //nupp-button
-            btn= new Button();
+            tree.AfterSelect += Tree_AfterSelect;
+
+            MakeElements();
+        }
+
+        public void MakeElements()
+        {
+            // 1st
+            btn = new Button();
             btn.Text = "Vajuta siia";
             btn.Height = 50;
             btn.Width = 70;
-            btn.Location = new Point(150,50);
-            btn.Click += Btn_Click;
-            //silt-label
+            btn.Location = new Point(150, 50);
+            //btn.Click += Btn_Click;
+
+            // 2nd
             lbl = new Label();
             lbl.Text = "Aknade elemendid c# abil";
-            lbl.Font=new Font("Arial", 26, FontStyle.Underline);
-            lbl.Size=new Size(520,50);
+            lbl.Font = new Font("Arial", 26, FontStyle.Underline);
+            lbl.Size = new Size(520, 50);
             lbl.Location = new Point(150, 0);
             lbl.MouseHover += Lbl_MouseHover;
             lbl.MouseLeave += Lbl_MouseLeave;
 
+            // 3rd
             pbox = new PictureBox();
             pbox.Size = new Size(60, 60);
             pbox.Location = new Point(150, btn.Height + lbl.Height + 5);
@@ -60,6 +69,7 @@ namespace Elemendid_vormis_TARpv23
             pbox.DoubleClick += Pbox_DoubleClick;
 
         }
+
         int tt = 0;
         private void Pbox_DoubleClick(object? sender, EventArgs e)
         {
@@ -81,21 +91,7 @@ namespace Elemendid_vormis_TARpv23
             
         }
         int t = 0;
-        private void Btn_Click(object? sender, EventArgs e)
-        {
-            t++;
-            if(t % 2==0)
-            {
-                btn.BackColor = Color.Red;
-            }
-            else
-            {
-                btn.BackColor = Color.White;
-            }
-            TeineVorm teineVorm = new TeineVorm(200,200);
-            teineVorm.Show();
 
-        }
         private void Tree_AfterSelect(object? sender, TreeViewEventArgs e)
         {
             if(e.Node.Text=="Nupp")
@@ -110,7 +106,7 @@ namespace Elemendid_vormis_TARpv23
             {
                 Controls.Add(pbox);
             }
-            else if (e.Node.Text == "Märkeruut")
+            else if (e.Node.Text == "MÃ¤rkeruut")
             {
                 chk1=new CheckBox();
                 chk1.Checked = false;
@@ -202,7 +198,7 @@ namespace Elemendid_vormis_TARpv23
                     DataRow dr = ds.Tables["food"].NewRow();
                     dr["name"] = text;
                     dr["price"] = "$"+(random.NextSingle()*10).ToString();
-                    dr["description"] = "Väga maitsev ";
+                    dr["description"] = "VÃ¤ga maitsev ";
                     dr["calories"] = random.Next(10,1000);
                     
                     ds.Tables["food"].Rows.Add(dr);
@@ -222,7 +218,7 @@ namespace Elemendid_vormis_TARpv23
                 Controls.Add(btn1);
 
                 btn2 = new Button();
-                btn2.Text = "Äraarvamismäng";
+                btn2.Text = "Ã„raarvamismÃ¤ng";
                 btn2.Height = 50;
                 btn2.Width = 70;
                 btn2.Location = new Point(380, 250);
@@ -241,7 +237,7 @@ namespace Elemendid_vormis_TARpv23
 
         private void Btn1_Click(object? sender, EventArgs e)
         {
-            Pildi_vaatamine pildiAken = new Pildi_vaatamine(200, 200);
+            Pildi_vaatamine pildiAken = new Pildi_vaatamine();
 
             pildiAken.Show();
         }
