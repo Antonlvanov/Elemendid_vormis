@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -16,6 +17,7 @@ namespace Elemendid_vormis_TARpv23
         private OpenFileDialog openFileDialog1;
         private ColorDialog colorDialog1;
         private Button cropButton;
+        private Button loadImageButton;
 
         private Point startPoint;
         private Rectangle cropRectangle;
@@ -33,13 +35,63 @@ namespace Elemendid_vormis_TARpv23
             openFileDialog1 = new OpenFileDialog();
             colorDialog1 = new ColorDialog();
 
-            backgroundButton = CreateButton("Set the background color", backgroundButton_Click);
-            clearButton = CreateButton("Clear the picture", clearButton_Click);
-            showButton = CreateButton("Show a picture", showButton_Click);
-            cropButton = CreateButton("Crop Image", CropButton_Click);
+            backgroundButton = CreateButton("Background", backgroundButton_Click);
+            clearButton = CreateButton("Clear", clearButton_Click);
+            showButton = CreateButton("Open", showButton_Click);
+            cropButton = CreateButton("Cut", CropButton_Click);
+            loadImageButton = CreateButton("Open Link", LoadImageFromUrl);
 
             SetParams();
             SetControls();
+        }
+
+        private void SetParams()
+        {
+            tableLayoutPanel1.Dock = DockStyle.Fill;
+            tableLayoutPanel1.ColumnCount = 4; // Устанавливаем 4 столбца
+            tableLayoutPanel1.RowCount = 2; // Две строки
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 93F)); // % для строки
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 7F)); //
+
+            pictureBox1.Dock = DockStyle.Fill;
+            pictureBox1.BorderStyle = BorderStyle.Fixed3D;
+
+            checkBox1.Text = "Stretch";
+            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
+
+            flowLayoutPanel1.Dock = DockStyle.Fill;
+            flowLayoutPanel1.FlowDirection = FlowDirection.RightToLeft; // Меняем направление, если нужно
+        }
+
+        private void SetControls()
+        {
+            tableLayoutPanel1.Controls.Add(pictureBox1, 0, 0);
+            tableLayoutPanel1.SetColumnSpan(pictureBox1, 4); 
+
+            tableLayoutPanel1.Controls.Add(checkBox1, 0, 1);
+            tableLayoutPanel1.Controls.Add(clearButton, 1, 1);
+            tableLayoutPanel1.Controls.Add(backgroundButton, 2, 1);
+            tableLayoutPanel1.Controls.Add(flowLayoutPanel1, 3, 1);
+
+            // right panel
+            flowLayoutPanel1.Controls.Add(showButton);
+            flowLayoutPanel1.Controls.Add(cropButton);
+            flowLayoutPanel1.Controls.Add(loadImageButton);
+
+            Controls.Add(tableLayoutPanel1);
+        }
+
+        private void LoadImageFromUrl(object? sender, EventArgs e)
+        {
+            string inputlink = Interaction.InputBox("Sisesta link pildile", "");
+            try
+            {
+                pictureBox1.Load(inputlink);
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка загрузки изображения с URL.");
+            }
         }
 
         private Button CreateButton(string text, EventHandler onClick)
@@ -51,41 +103,6 @@ namespace Elemendid_vormis_TARpv23
             };
             button.Click += onClick;
             return button;
-        }
-
-        private void SetParams()
-        {
-            tableLayoutPanel1.Dock = DockStyle.Fill;
-            tableLayoutPanel1.ColumnCount = 2;
-            tableLayoutPanel1.RowCount = 2;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 85));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 90F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 7F));
-
-            pictureBox1.Dock = DockStyle.Fill;
-            pictureBox1.BorderStyle = BorderStyle.Fixed3D;
-
-            checkBox1.Text = "Stretch";
-            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
-
-            flowLayoutPanel1.Dock = DockStyle.Fill;
-            flowLayoutPanel1.FlowDirection = FlowDirection.RightToLeft;
-        }
-
-        private void SetControls()
-        {
-            flowLayoutPanel1.Controls.Add(showButton);
-            flowLayoutPanel1.Controls.Add(clearButton);
-            flowLayoutPanel1.Controls.Add(backgroundButton);
-            flowLayoutPanel1.Controls.Add(cropButton);
-
-            tableLayoutPanel1.Controls.Add(pictureBox1, 0, 0);
-            tableLayoutPanel1.SetColumnSpan(pictureBox1, 2);
-            tableLayoutPanel1.Controls.Add(checkBox1, 0, 1);
-            tableLayoutPanel1.Controls.Add(flowLayoutPanel1, 1, 1);
-
-            Controls.Add(tableLayoutPanel1);
         }
 
         private void PictureBox1_MouseDown(object sender, MouseEventArgs e)
@@ -132,14 +149,51 @@ namespace Elemendid_vormis_TARpv23
 
         private void CropImage(Rectangle cropArea)
         {
-            if (pictureBox1.Image != null)
+            if (pictureBox1.Image != null && pictureBox1.SizeMode == PictureBoxSizeMode.StretchImage)
             {
+                // Получаем исходные размеры изображения
+                Bitmap oldImage = (Bitmap)pictureBox1.Image;
+                int originalWidth = oldImage.Width;
+                int originalHeight = oldImage.Height;
+
+                // Получаем текущие размеры изображения в PictureBox
+                int displayedWidth = pictureBox1.ClientSize.Width;
+                int displayedHeight = pictureBox1.ClientSize.Height;
+
+                // Вычисляем коэффициенты масштабирования
+                float scaleX = (float)originalWidth / displayedWidth;
+                float scaleY = (float)originalHeight / displayedHeight;
+
+                // Корректируем координаты выделения
+                Rectangle adjustedCropArea = new Rectangle(
+                    (int)(cropArea.X * scaleX),
+                    (int)(cropArea.Y * scaleY),
+                    (int)(cropArea.Width * scaleX),
+                    (int)(cropArea.Height * scaleY));
+
+                // Проверка границ выделенной области
+                if (adjustedCropArea.X < 0 || adjustedCropArea.Y < 0 ||
+                    adjustedCropArea.Right > originalWidth || adjustedCropArea.Bottom > originalHeight)
+                {
+                    MessageBox.Show("Некорректные параметры обрезки.");
+                    return;
+                }
+
+                // Обрезаем изображение
+                Bitmap newImage = oldImage.Clone(adjustedCropArea, oldImage.PixelFormat);
+                oldImage.Dispose();
+                pictureBox1.Image = newImage;
+            }
+            else if (pictureBox1.Image != null)
+            {
+                // Если растягивание не включено, используем оригинальные координаты
                 Bitmap oldImage = (Bitmap)pictureBox1.Image;
                 Bitmap newImage = oldImage.Clone(cropArea, oldImage.PixelFormat);
                 oldImage.Dispose();
                 pictureBox1.Image = newImage;
             }
         }
+
 
         private void CropButton_Click(object sender, EventArgs e)
         {
@@ -160,17 +214,6 @@ namespace Elemendid_vormis_TARpv23
             pictureBox1.Invalidate(); 
         }
 
-        private void LoadImageFromUrl(string url)
-        {
-            try
-            {
-                pictureBox1.Load(url);
-            }
-            catch
-            {
-                MessageBox.Show("Ошибка загрузки изображения с URL.");
-            }
-        }
 
         private void showButton_Click(object sender, EventArgs e)
         {
@@ -206,6 +249,22 @@ namespace Elemendid_vormis_TARpv23
             {
                 pictureBox1.SizeMode = PictureBoxSizeMode.Normal;
             }
+            
         }
+        //private void UpdateImageCoordinates()
+        //{
+        //    if (pictureBox1.Image != null && pictureBox1.SizeMode == PictureBoxSizeMode.StretchImage)
+        //    {
+        //        float xRatio = (float)pictureBox1.Image.Width / pictureBox1.Width;
+        //        float yRatio = (float)pictureBox1.Image.Height / pictureBox1.Height;
+
+        //        startPoint.X = (int)(startPoint.X * xRatio);
+        //        startPoint.Y = (int)(startPoint.Y * yRatio);
+        //        cropRectangle.X = (int)(cropRectangle.X * xRatio);
+        //        cropRectangle.Y = (int)(cropRectangle.Y * yRatio);
+        //        cropRectangle.Width = (int)(cropRectangle.Width * xRatio);
+        //        cropRectangle.Height = (int)(cropRectangle.Height * yRatio);
+        //    }
+        //}
     }
 }
