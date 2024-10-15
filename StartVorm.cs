@@ -244,7 +244,7 @@ namespace Elemendid_vormis_TARpv23
 
         private void Btn2_Click(object? sender, EventArgs e)
         {
-            Araarvamismang mangAken = new Araarvamismang(200, 200);
+            Araarvamismang mangAken = new Araarvamismang();
 
             mangAken.Show();
         }

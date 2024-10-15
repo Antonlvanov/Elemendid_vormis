@@ -38,3 +38,4 @@ C:\Users\opilane\source\repos\Anton I\Elemendid_vormis\obj\Debug\net8.0-windows\
 C:\Users\opilane\source\repos\Anton I\Elemendid_vormis\obj\Debug\net8.0-windows\Elemendid_vormis_TARpv23.genruntimeconfig.cache
 C:\Users\opilane\source\repos\Anton I\Elemendid_vormis\obj\Debug\net8.0-windows\ref\Elemendid_vormis_TARpv23.dll
 C:\Users\Anton\Source\Repos\Elemendid_vormis\obj\Debug\net8.0-windows\Elemendid_vormis_TARpv23.StartVorm.resources
+C:\Users\Anton\Source\Repos\Elemendid_vormis\obj\Debug\net8.0-windows\Elemendid_vormis_TARpv23.Pildi_vaatamine.resources
