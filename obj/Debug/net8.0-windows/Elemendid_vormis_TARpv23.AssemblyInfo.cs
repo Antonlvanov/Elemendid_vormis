@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Elemendid_vormis_TARpv23")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eecf9258517704572f332d140efd242dbe90f179")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+11279def9d7f399521cdd729383390fca1f78962")]
 [assembly: System.Reflection.AssemblyProductAttribute("Elemendid_vormis_TARpv23")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Elemendid_vormis_TARpv23")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

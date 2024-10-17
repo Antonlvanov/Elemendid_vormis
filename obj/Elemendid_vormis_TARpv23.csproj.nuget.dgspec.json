@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Anton\\source\\repos\\Elemendid_vormis\\Elemendid_vormis_TARpv23.csproj": {}
+    "C:\\Users\\Anton\\Source\\Repos\\Elemendid_vormis\\Elemendid_vormis_TARpv23.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Anton\\source\\repos\\Elemendid_vormis\\Elemendid_vormis_TARpv23.csproj": {
+    "C:\\Users\\Anton\\Source\\Repos\\Elemendid_vormis\\Elemendid_vormis_TARpv23.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Anton\\source\\repos\\Elemendid_vormis\\Elemendid_vormis_TARpv23.csproj",
+        "projectUniqueName": "C:\\Users\\Anton\\Source\\Repos\\Elemendid_vormis\\Elemendid_vormis_TARpv23.csproj",
         "projectName": "Elemendid_vormis_TARpv23",
-        "projectPath": "C:\\Users\\Anton\\source\\repos\\Elemendid_vormis\\Elemendid_vormis_TARpv23.csproj",
+        "projectPath": "C:\\Users\\Anton\\Source\\Repos\\Elemendid_vormis\\Elemendid_vormis_TARpv23.csproj",
         "packagesPath": "C:\\Users\\Anton\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\Anton\\source\\repos\\Elemendid_vormis\\obj\\",
         "projectStyle": "PackageReference",

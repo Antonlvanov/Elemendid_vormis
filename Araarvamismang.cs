@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
-using System.Windows.Forms;
-
+﻿
 namespace Elemendid_vormis_TARpv23
 {
     public partial class Araarvamismang : Form
@@ -35,7 +25,7 @@ namespace Elemendid_vormis_TARpv23
             this.FormBorderStyle = FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
 
-            timer1 = new System.Windows.Forms.Timer(); // Инициализация timer1
+            timer1 = new System.Windows.Forms.Timer(); // timer1
             timer1.Interval = 1000;
             timer1.Tick += new EventHandler(timer1_Tick);
 
@@ -45,7 +35,7 @@ namespace Elemendid_vormis_TARpv23
             quotient = new NumericUpDown();
             startButton = new Button();
 
-            // Инициализация элементов
+            // init elements
             timeLabel = CreateLabel("", new Font("Arial", 15.75f), new Size(200, 30), new Point(300, 0), false);
             timeLeftText = CreateLabel("Time Left", new Font("Arial", 15.75f), new Size(100, 30), new Point(50, 0), true);
 
@@ -65,7 +55,7 @@ namespace Elemendid_vormis_TARpv23
             dividedRightLabel = CreateLabel("?", new Font("Arial", 18), new Size(60, 50), new Point(200, 300), true);
             dividedSign = CreateLabel("/", new Font("Arial", 18), new Size(30, 50), new Point(120, 300), true);
 
-            // Создание знаков равенства
+            // =
             Controls.Add(CreateLabel("=", new Font("Arial", 18), new Size(30, 50), new Point(300, 75), false));
             Controls.Add(CreateLabel("=", new Font("Arial", 18), new Size(30, 50), new Point(300, 150), false));
             Controls.Add(CreateLabel("=", new Font("Arial", 18), new Size(30, 50), new Point(300, 225), false));
@@ -100,16 +90,6 @@ namespace Elemendid_vormis_TARpv23
             startButton.Click += new EventHandler(StartButton_Click);
 
             // controls
-            Controls.Add(timeLabel);
-            Controls.Add(timeLeftText);
-            Controls.Add(plusLeftLabel);
-            Controls.Add(plusRightLabel);
-            Controls.Add(minusLeftLabel);
-            Controls.Add(minusRightLabel);
-            Controls.Add(timesLeftLabel);
-            Controls.Add(timesRightLabel);
-            Controls.Add(dividedLeftLabel);
-            Controls.Add(dividedRightLabel);
             Controls.Add(sum);
             Controls.Add(difference);
             Controls.Add(product);

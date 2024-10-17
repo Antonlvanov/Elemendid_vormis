@@ -251,7 +251,7 @@ namespace Elemendid_vormis_TARpv23
 
         private void Btn3_Click(object? sender, EventArgs e)
         {
-            Piltide_leidmine pildileidAken = new Piltide_leidmine(200, 200);
+            Piltide_leidmine pildileidAken = new Piltide_leidmine();
 
             pildileidAken.Show();
         }
