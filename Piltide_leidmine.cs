@@ -2,17 +2,15 @@
 {
     public partial class Piltide_leidmine : Form
     {
-        // Объявляем необходимые объекты
-        private TableLayoutPanel tableLayoutPanel;
+        private TableLayoutPanel mainLayoutPanel; 
+        private TableLayoutPanel tableLayoutPanel; 
         private Label timeLabel;
         private System.Windows.Forms.Timer timer;
-
-        // Переменные для отслеживания кликов
+        private System.Windows.Forms.Timer gameTimer;
         private Label firstClicked = null;
         private Label secondClicked = null;
-
-        // Список иконок для каждой метки
-        List<string> icons = new List<string>()
+        private int timeElapsed;
+        private List<string> icons = new List<string>()
         {
             "c", "c", "e", "e", "N", "N", "f", "f",
             "l", "l", "u", "u", "x", "x", "v", "v"
@@ -20,12 +18,28 @@
 
         public Piltide_leidmine()
         {
-            // Настройка параметров формы
             this.Width = 550;
-            this.Height = 500;
+            this.Height = 550;
             this.Text = "Matching Game";
 
-            // Создание TableLayoutPanel
+            
+            mainLayoutPanel = new TableLayoutPanel();
+            mainLayoutPanel.Dock = DockStyle.Fill;
+            mainLayoutPanel.RowCount = 2;
+            mainLayoutPanel.ColumnCount = 1;
+            mainLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F)); 
+            mainLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F)); 
+
+            timeLabel = new Label();
+            timeLabel.AutoSize = false;
+            timeLabel.BorderStyle = BorderStyle.FixedSingle;
+            timeLabel.Width = 200;
+            timeLabel.Height = 30;
+            timeLabel.Font = new Font(timeLabel.Font.FontFamily, 15.75f);
+            timeLabel.Text = "Время: 00:00";
+            timeLabel.TextAlign = ContentAlignment.MiddleCenter;
+            timeLabel.Dock = DockStyle.Fill; 
+
             tableLayoutPanel = new TableLayoutPanel();
             tableLayoutPanel.Dock = DockStyle.Fill;
             tableLayoutPanel.CellBorderStyle = TableLayoutPanelCellBorderStyle.Inset;
@@ -37,53 +51,55 @@
                 tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
             }
 
-            // Настройка таймера
             timer = new System.Windows.Forms.Timer();
-            timer.Interval = 1000;
+            timer.Interval = 750;
             timer.Tick += Timer_Tick;
 
-            // Настройка метки времени
-            timeLabel = new Label();
-            timeLabel.AutoSize = false;
-            timeLabel.BorderStyle = BorderStyle.FixedSingle;
-            timeLabel.Width = 200;
-            timeLabel.Height = 30;
-            timeLabel.Font = new Font(timeLabel.Font.FontFamily, 15.75f);
-            timeLabel.Text = "Время: 00:00";
-            timeLabel.Location = new Point(300, 0);
+            gameTimer = new System.Windows.Forms.Timer();
+            gameTimer.Interval = 1000;
+            gameTimer.Tick += GameTimer_Tick;
 
-            // Добавление компонентов на форму
-            Controls.Add(tableLayoutPanel);
-            Controls.Add(timeLabel);
+            mainLayoutPanel.Controls.Add(timeLabel, 0, 0); 
+            mainLayoutPanel.Controls.Add(tableLayoutPanel, 0, 1); 
 
-            // Перемешиваем иконки
+            Controls.Add(mainLayoutPanel);
+
+            AddLabelsToTable();
+
             AssignIconsToSquares();
+
+            StartGameTimer();
         }
 
-        // Метод для добавления меток в таблицу
-        private void AddLabelsToTable()
+        private void Timer_Tick(object sender, EventArgs e)
         {
-            for (int i = 0; i < tableLayoutPanel.RowCount; i++)
-            {
-                for (int j = 0; j < tableLayoutPanel.ColumnCount; j++)
-                {
-                    Label label = new Label();
-                    label.BackColor = Color.CornflowerBlue;
-                    label.AutoSize = false;
-                    label.Dock = DockStyle.Fill;
-                    label.TextAlign = ContentAlignment.MiddleCenter;
-                    label.Font = new Font("Webdings", 48, FontStyle.Bold);
-                    label.Text = "";  // Иконка изначально скрыта
+            timer.Stop();
 
-                    // Привязываем обработчик события клика
-                    label.Click += Label_Click;
+            firstClicked.ForeColor = firstClicked.BackColor;
+            secondClicked.ForeColor = secondClicked.BackColor;
 
-                    tableLayoutPanel.Controls.Add(label, j, i);
-                }
-            }
+            firstClicked = null;
+            secondClicked = null;
         }
 
-        // Метод для назначения иконок
+        private void GameTimer_Tick(object sender, EventArgs e)
+        {
+            timeElapsed++;
+            TimeSpan time = TimeSpan.FromSeconds(timeElapsed);
+            timeLabel.Text = "Время: " + time.ToString(@"mm\:ss");
+        }
+
+        private void StartGameTimer()
+        {
+            timeElapsed = 0;
+            gameTimer.Start();
+        }
+
+        private void StopGameTimer()
+        {
+            gameTimer.Stop();
+        }
+
         private void AssignIconsToSquares()
         {
             Random random = new Random();
@@ -95,12 +111,35 @@
                 {
                     int randomNumber = random.Next(icons.Count);
                     iconLabel.Tag = icons[randomNumber];
+                    iconLabel.Text = icons[randomNumber]; 
+                    iconLabel.ForeColor = iconLabel.BackColor; 
                     icons.RemoveAt(randomNumber);
                 }
             }
         }
 
-        // Обработчик кликов по меткам
+        private void AddLabelsToTable()
+        {
+            for (int row = 0; row < 4; row++)
+            {
+                for (int col = 0; col < 4; col++)
+                {
+                    Label label = new Label();
+                    label.BackColor = Color.CornflowerBlue;
+                    label.AutoSize = false;
+                    label.Dock = DockStyle.Fill;
+                    label.TextAlign = ContentAlignment.MiddleCenter;
+                    label.Font = new Font("Webdings", 48, FontStyle.Bold);
+                    label.Text = "c"; 
+                    label.ForeColor = label.BackColor;
+
+                    label.Click += Label_Click;
+
+                    tableLayoutPanel.Controls.Add(label, col, row); 
+                }
+            }
+        }
+
         private void Label_Click(object sender, EventArgs e)
         {
             if (firstClicked != null && secondClicked != null)
@@ -114,7 +153,6 @@
             if (clickedLabel.ForeColor == Color.Black)
                 return;
 
-            // Отображаем иконку
             clickedLabel.ForeColor = Color.Black;
 
             if (firstClicked == null)
@@ -125,7 +163,6 @@
 
             secondClicked = clickedLabel;
 
-            // Проверка совпадений
             CheckForWinner();
 
             if (firstClicked.Tag.ToString() == secondClicked.Tag.ToString())
@@ -139,7 +176,6 @@
             }
         }
 
-        // Метод для проверки победителя
         private void CheckForWinner()
         {
             foreach (Control control in tableLayoutPanel.Controls)
@@ -150,20 +186,10 @@
                     return;
             }
 
-            MessageBox.Show("Вы победили!", "Поздравляем");
+            StopGameTimer();
+
+            MessageBox.Show($"Вы победили! Ваше время: {timeLabel.Text}", "Поздравляем");
             Close();
-        }
-
-        // Метод, который скрывает иконки обратно после неудачного совпадения
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            timer.Stop();
-
-            firstClicked.ForeColor = firstClicked.BackColor;
-            secondClicked.ForeColor = secondClicked.BackColor;
-
-            firstClicked = null;
-            secondClicked = null;
         }
     }
 }

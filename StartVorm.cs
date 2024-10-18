@@ -65,7 +65,6 @@ namespace Elemendid_vormis_TARpv23
             pbox.Size = new Size(60, 60);
             pbox.Location = new Point(150, btn.Height + lbl.Height + 5);
             pbox.SizeMode = PictureBoxSizeMode.Zoom;
-            pbox.Image = Image.FromFile(@"..\..\..\ratas.png");
             pbox.DoubleClick += Pbox_DoubleClick;
 
         }
@@ -75,7 +74,6 @@ namespace Elemendid_vormis_TARpv23
         {
             string[] pildid = { "esimene.png", "teine.png", "kolmas.png" };
             string fail = pildid[tt];
-            pbox.Image=Image.FromFile(@"..\..\..\"+fail);
             tt++;
             if (tt == 3) { tt=0; }  
         }
@@ -118,7 +116,6 @@ namespace Elemendid_vormis_TARpv23
                 chk2 = new CheckBox();
                 chk2.Checked = false;
                 //chk2.Image = Image.FromFile(@"..\..\..\ratas.png");
-                chk2.BackgroundImage = Image.FromFile(@"..\..\..\ratas.png");
                 chk2.BackgroundImageLayout = ImageLayout.Zoom;
                 chk2.Size = new Size(100, 100);
                 chk2.Location = new Point(150, btn.Height + lbl.Height + pbox.Height + chk1.Height + 15);

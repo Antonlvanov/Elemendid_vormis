@@ -25,7 +25,6 @@ C:\Users\opilane\source\repos\Anton I\Elemendid_vormis\obj\Debug\net8.0-windows\
 C:\Users\opilane\source\repos\Anton I\Elemendid_vormis\obj\Debug\net8.0-windows\Elemendid_vormis_TARpv23.Pildi_vaatamine.resources
 C:\Users\opilane\source\repos\Anton I\Elemendid_vormis\obj\Debug\net8.0-windows\Elemendid_vormis_TARpv23.Piltide_leidmine.resources
 C:\Users\opilane\source\repos\Anton I\Elemendid_vormis\obj\Debug\net8.0-windows\Elemendid_vormis_TARpv23.StartVorm.resources
-C:\Users\opilane\source\repos\Anton I\Elemendid_vormis\obj\Debug\net8.0-windows\Elemendid_vormis_TARpv23.TeineVorm.resources
 C:\Users\opilane\source\repos\Anton I\Elemendid_vormis\obj\Debug\net8.0-windows\Elemendid_vormis_TARpv23.csproj.GenerateResource.cache
 C:\Users\opilane\source\repos\Anton I\Elemendid_vormis\obj\Debug\net8.0-windows\Elemendid_vormis_TARpv23.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\opilane\source\repos\Anton I\Elemendid_vormis\obj\Debug\net8.0-windows\Elemendid_vormis_TARpv23.AssemblyInfoInputs.cache
