@@ -19,10 +19,13 @@
         // lives
         private TableLayoutPanel topPanel;
         private Label livesLabel;
-        private int lives = 5;
+        private int lives = 10;
 
         private System.Windows.Forms.Timer countdownTimer; // таймер для обратного отсчета
         private int countdownValue; // начальное значение для обратного отсчета
+
+        private int currentLevel = 1; // Текущий уровень
+        private int gridSize = 4;
 
         public Piltide_leidmine()
         {
