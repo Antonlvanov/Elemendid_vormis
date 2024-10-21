@@ -22,9 +22,8 @@
         private int lives = 10;
 
         private System.Windows.Forms.Timer countdownTimer; // таймер для обратного отсчета
-        private int countdownValue; // начальное значение для обратного отсчета
+        private int countdownValue = 10; // начальное значение для обратного отсчета
 
-        private int currentLevel = 1; // Текущий уровень
         private int gridSize = 4;
 
         public Piltide_leidmine()
@@ -41,13 +40,14 @@
             mainLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
 
             topPanel = new TableLayoutPanel(); // panel for top labels
-            topPanel.ColumnCount = 3; // Теперь 3 колонки: одна для отступа слева, вторая для времени, третья для жизней
+            topPanel.ColumnCount = 3; // одна для отступа слева, вторая для времени, третья для жизней
             topPanel.RowCount = 1;
             topPanel.Dock = DockStyle.Fill;
-            topPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F)); // 50% для отступа слева
+            topPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F)); // 50% отступа 
             topPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 200F)); // фиксированная ширина для лейбла времени
-            topPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F)); // 50% для жизней
+            topPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
 
+            // таймер
             timeLabel = new Label();
             timeLabel.AutoSize = false;
             timeLabel.BorderStyle = BorderStyle.FixedSingle;
@@ -56,20 +56,22 @@
             timeLabel.Font = new Font(timeLabel.Font.FontFamily, 15.75f);
             timeLabel.Text = "Time: 00:00";
             timeLabel.TextAlign = ContentAlignment.MiddleCenter;
-            timeLabel.Dock = DockStyle.Fill; // Это поможет заполнить отведенное место
-            timeLabel.Anchor = AnchorStyles.None; // Без привязки, чтобы разместить ровно по центру
+            timeLabel.Dock = DockStyle.Fill; 
+            timeLabel.Anchor = AnchorStyles.None; // разместить по центру
 
+            // панель для иконок
             tableLayoutPanel = new TableLayoutPanel();
             tableLayoutPanel.Dock = DockStyle.Fill;
             tableLayoutPanel.CellBorderStyle = TableLayoutPanelCellBorderStyle.Inset;
             tableLayoutPanel.ColumnCount = 4;
             tableLayoutPanel.RowCount = 4;
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < tableLayoutPanel.ColumnCount; i++)
             {
                 tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
                 tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
             }
+
             // add lives label
             livesLabel = new Label();
             livesLabel.AutoSize = false;
@@ -97,47 +99,97 @@
             showIconsTimer.Tick += ShowIconsTimer_Tick;
 
 
-            // fill main panel layout
-            topPanel.Controls.Add(new Label(), 0, 0); // Пустой элемент для отступа слева
-            topPanel.Controls.Add(timeLabel, 1, 0); // Лейбл времени по центру
+            // fill main layout panel 
+            topPanel.Controls.Add(new Label(), 0, 0); // empty label
+            topPanel.Controls.Add(timeLabel, 1, 0); 
             topPanel.Controls.Add(livesLabel, 2, 0);
             mainLayoutPanel.Controls.Add(topPanel, 0, 0);
             mainLayoutPanel.Controls.Add(tableLayoutPanel, 0, 1); 
 
             Controls.Add(mainLayoutPanel);
 
-            AddLabelsToTable();
-            AssignIconsToSquares();
+            StartShowIconsTimerWithCountdown();
+        }
+
+        private void CheckForWinner()
+        {
+            foreach (Control control in tableLayoutPanel.Controls)
+            {
+                Label iconLabel = control as Label;
+
+                if (iconLabel != null && iconLabel.ForeColor == iconLabel.BackColor)
+                    return;
+            }
+
+            StopGameTimer();
+
+            MessageBox.Show($"You won! Time: {timeLabel.Text}", "Congratulations");
+
+            var vastus = MessageBox.Show("Continue", "Continue to next level?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (vastus == DialogResult.Yes)
+            {
+                IncreaseDifiiculty();
+            }
+            else { Close(); }
+        }
+
+        private void IncreaseDifiiculty()
+        {
+            gridSize += 1;
+            countdownValue += 5;
+
+            tableLayoutPanel.Controls.Clear();
+            tableLayoutPanel.ColumnStyles.Clear();
+            tableLayoutPanel.RowStyles.Clear();
+
+            tableLayoutPanel.ColumnCount = gridSize;
+            tableLayoutPanel.RowCount = gridSize;
+
+            for (int i = 0; i < gridSize; i++)
+            {
+                tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F / gridSize));
+                tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F / gridSize));
+            }
+
+            while (icons.Count < gridSize * gridSize)
+            {
+                icons.AddRange(new List<string> { "a", "a", "b", "b", "c", "c", "d", "d", "e", "e", "f", "f" }); // Добавьте новые иконки
+            }
 
             ShowAllIcons();
             StartShowIconsTimerWithCountdown();
         }
 
+
         private void StartShowIconsTimerWithCountdown()
         {
-            countdownValue = 10; // Устанавливаем 5 секунд для запоминания
-            timeLabel.ForeColor = Color.Red; // Цвет времени красный для обратного отсчета
+            timeLabel.ForeColor = Color.Red; 
             timeLabel.Text = $"Start in: {countdownValue}";
 
-            // Запуск таймера для обратного отсчета
+            if (gridSize < 5)
+            {
+                AddLabelsToTable();
+                AssignIconsToSquares();
+            }
+
+            ShowAllIcons();
+
             showIconsTimer.Start();
         }
 
-        private void ShowIconsTimer_Tick(object sender, EventArgs e)
+        private void ShowIconsTimer_Tick(object sender, EventArgs e) // таймер показа иконок
         {
             countdownValue--;
             timeLabel.Text = $"Start in: {countdownValue}";
 
             if (countdownValue == 0)
             {
-                showIconsTimer.Stop(); // Остановить таймер показа иконок
-                timeLabel.ForeColor = Color.Black; // Вернуть обычный цвет
+                showIconsTimer.Stop(); 
+                timeLabel.ForeColor = Color.Black;
                 timeLabel.Text = "Time: 00:00";
 
-                // Скрыть все иконки
                 HideAllIcons();
 
-                // Запуск основного таймера игры
                 StartGameTimer();
             }
         }
@@ -215,9 +267,9 @@
 
         private void AddLabelsToTable()
         {
-            for (int row = 0; row < 4; row++)
+            for (int row = 0; row < gridSize; row++)
             {
-                for (int col = 0; col < 4; col++)
+                for (int col = 0; col < gridSize; col++)
                 {
                     Label label = new Label();
                     label.BackColor = Color.CornflowerBlue;
@@ -285,22 +337,6 @@
             {
                 timer.Start();
             }
-        }
-
-        private void CheckForWinner()
-        {
-            foreach (Control control in tableLayoutPanel.Controls)
-            {
-                Label iconLabel = control as Label;
-
-                if (iconLabel != null && iconLabel.ForeColor == iconLabel.BackColor)
-                    return;
-            }
-
-            StopGameTimer();
-
-            MessageBox.Show($"You won! Time: {timeLabel.Text}", "Congratulations");
-            Close();
         }
     }
 }

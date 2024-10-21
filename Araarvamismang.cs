@@ -36,13 +36,15 @@ namespace Elemendid_vormis_TARpv23
             this.BackColor = Color.LightGray;
 
             startButton = new Button();
+            checkAnswersButton = new Button();
+
             timer1 = new System.Windows.Forms.Timer(); // timer1
+
             sumAnswer = new NumericUpDown();
             minusAnswer = new NumericUpDown();
             timesAnswer = new NumericUpDown();
             devideAnswer = new NumericUpDown();
             Panel linePanel = new Panel();
-            checkAnswersButton = new Button();
 
             // timer
             timer1.Interval = 1000;
@@ -85,7 +87,7 @@ namespace Elemendid_vormis_TARpv23
             Controls.Add(CreateLabel("=", new Font("Arial", 18), new Size(30, 50), new Point(260, 210), false));
             Controls.Add(CreateLabel("=", new Font("Arial", 18), new Size(30, 50), new Point(260, 285), false));
 
-            // NumericUpDown
+            // setup NumericUpDown
             sumAnswer.Font = new Font(sumAnswer.Font.FontFamily, 18);
             sumAnswer.MaximumSize = new Size(100, 0);
             sumAnswer.Location = new Point(330, 65);
