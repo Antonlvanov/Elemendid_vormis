@@ -1,5 +1,4 @@
 C:\Users\Anton\Source\Repos\Elemendid_vormis\obj\Debug\net8.0-windows\Elemendid_vormis_TARpv23.Araarvamismang.resources
-C:\Users\Anton\Source\Repos\Elemendid_vormis\obj\Debug\net8.0-windows\Elemendid_vormis_TARpv23.Piltide_leidmine.resources
 C:\Users\Anton\Source\Repos\Elemendid_vormis\obj\Debug\net8.0-windows\Elemendid_vormis_TARpv23.csproj.GenerateResource.cache
 C:\Users\Anton\Source\Repos\Elemendid_vormis\obj\Debug\net8.0-windows\Elemendid_vormis_TARpv23.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Anton\Source\Repos\Elemendid_vormis\obj\Debug\net8.0-windows\Elemendid_vormis_TARpv23.AssemblyInfoInputs.cache

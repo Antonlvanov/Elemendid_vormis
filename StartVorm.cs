@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualBasic;
+﻿using Elemendid_vormis_TARpv23.MaluMang;
+using Microsoft.VisualBasic;
 using System.ComponentModel.Design;
 using System.Data;
 
@@ -316,6 +317,11 @@ namespace Elemendid_vormis_TARpv23
                 lbl.BorderStyle= BorderStyle.None;
                 pbox.BorderStyle= BorderStyle.None;
             }
+        }
+
+        private void StarVorm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true; 
         }
     }
 }
