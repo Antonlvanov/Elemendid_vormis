@@ -2,8 +2,8 @@
 {
     public partial class Piltide_leidmine : Form
     {
-        private TableLayoutPanel mainLayoutPanel; 
-        private TableLayoutPanel tableLayoutPanel; 
+        private TableLayoutPanel mainLayoutPanel;
+        private TableLayoutPanel tableLayoutPanel;
         private Label timeLabel;
         private System.Windows.Forms.Timer timer;
         private System.Windows.Forms.Timer gameTimer;
@@ -36,7 +36,7 @@
             mainLayoutPanel.Dock = DockStyle.Fill;
             mainLayoutPanel.RowCount = 2;
             mainLayoutPanel.ColumnCount = 1;
-            mainLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F)); 
+            mainLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
             mainLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
 
             topPanel = new TableLayoutPanel(); // panel for top labels
@@ -56,7 +56,7 @@
             timeLabel.Font = new Font(timeLabel.Font.FontFamily, 15.75f);
             timeLabel.Text = "Time: 00:00";
             timeLabel.TextAlign = ContentAlignment.MiddleCenter;
-            timeLabel.Dock = DockStyle.Fill; 
+            timeLabel.Dock = DockStyle.Fill;
             timeLabel.Anchor = AnchorStyles.None; // разместить по центру
 
             // панель для иконок
@@ -94,17 +94,17 @@
             gameTimer.Interval = 1000;
             gameTimer.Tick += GameTimer_Tick;
 
-            showIconsTimer = new System.Windows.Forms.Timer(); 
-            showIconsTimer.Interval = 1000; 
+            showIconsTimer = new System.Windows.Forms.Timer();
+            showIconsTimer.Interval = 1000;
             showIconsTimer.Tick += ShowIconsTimer_Tick;
 
 
             // fill main layout panel 
             topPanel.Controls.Add(new Label(), 0, 0); // empty label
-            topPanel.Controls.Add(timeLabel, 1, 0); 
+            topPanel.Controls.Add(timeLabel, 1, 0);
             topPanel.Controls.Add(livesLabel, 2, 0);
             mainLayoutPanel.Controls.Add(topPanel, 0, 0);
-            mainLayoutPanel.Controls.Add(tableLayoutPanel, 0, 1); 
+            mainLayoutPanel.Controls.Add(tableLayoutPanel, 0, 1);
 
             Controls.Add(mainLayoutPanel);
 
@@ -151,10 +151,29 @@
                 tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F / gridSize));
             }
 
-            while (icons.Count < gridSize * gridSize)
+            AddLabelsToTable();
+
+            // Очистите список иконок
+            icons.Clear();
+
+            // Добавьте новые иконки
+            for (int i = 0; i < gridSize * gridSize / 2; i++)
             {
-                icons.AddRange(new List<string> { "a", "a", "b", "b", "c", "c", "d", "d", "e", "e", "f", "f" }); // Добавьте новые иконки
+                icons.Add("a");
+                icons.Add("a");
+                icons.Add("b");
+                icons.Add("b");
+                icons.Add("c");
+                icons.Add("c");
+                icons.Add("d");
+                icons.Add("d");
+                icons.Add("e");
+                icons.Add("e");
+                icons.Add("f");
+                icons.Add("f");
             }
+
+            AssignIconsToSquares();
 
             ShowAllIcons();
             StartShowIconsTimerWithCountdown();
@@ -163,7 +182,7 @@
 
         private void StartShowIconsTimerWithCountdown()
         {
-            timeLabel.ForeColor = Color.Red; 
+            timeLabel.ForeColor = Color.Red;
             timeLabel.Text = $"Start in: {countdownValue}";
 
             if (gridSize < 5)
@@ -184,7 +203,7 @@
 
             if (countdownValue == 0)
             {
-                showIconsTimer.Stop(); 
+                showIconsTimer.Stop();
                 timeLabel.ForeColor = Color.Black;
                 timeLabel.Text = "Time: 00:00";
 
@@ -258,8 +277,8 @@
                 {
                     int randomNumber = random.Next(icons.Count);
                     iconLabel.Tag = icons[randomNumber];
-                    iconLabel.Text = icons[randomNumber]; 
-                    iconLabel.ForeColor = iconLabel.BackColor; 
+                    iconLabel.Text = icons[randomNumber];
+                    iconLabel.ForeColor = iconLabel.BackColor;
                     icons.RemoveAt(randomNumber);
                 }
             }
@@ -277,12 +296,12 @@
                     label.Dock = DockStyle.Fill;
                     label.TextAlign = ContentAlignment.MiddleCenter;
                     label.Font = new Font("Webdings", 48, FontStyle.Bold);
-                    label.Text = "c"; 
+                    label.Text = "c";
                     label.ForeColor = label.BackColor;
 
                     label.Click += Label_Click;
 
-                    tableLayoutPanel.Controls.Add(label, col, row); 
+                    tableLayoutPanel.Controls.Add(label, col, row);
                 }
             }
         }
