@@ -57,17 +57,17 @@ namespace Elemendid_vormis_TARpv23.MaluMang
 
             Random random = new Random();
 
-            // Выбираем первую ячейку
+            // первая ячейка
             int firstIndex = random.Next(availableCells.Count);
             int firstCell = availableCells[firstIndex];
-            availableCells.RemoveAt(firstIndex); // Удаляем первую ячейку из доступных
+            availableCells.RemoveAt(firstIndex); // удаляем ячейку из доступных
 
-            // Выбираем вторую ячейку
+            // вторая
             int secondIndex = random.Next(availableCells.Count);
             int secondCell = availableCells[secondIndex];
-            availableCells.RemoveAt(secondIndex); // Удаляем вторую ячейку из доступных
+            availableCells.RemoveAt(secondIndex); // удаляем вторую ячейку из доступных
 
-            // Присваиваем иконку двум выбранным ячейкам
+            // присваивание
             SetIconToCell(firstCell, icon);
             SetIconToCell(secondCell, icon);
         }
@@ -77,9 +77,9 @@ namespace Elemendid_vormis_TARpv23.MaluMang
             Label label = gameSettings.TableLayoutPanel.Controls[cellIndex] as Label;
             if (label != null)
             {
-                label.Tag = icon; // Назначаем иконку
-                label.Text = icon; // Устанавливаем текст иконки
-                label.ForeColor = label.BackColor; // Скрываем иконку
+                label.Tag = icon; 
+                label.Text = icon; 
+                label.ForeColor = label.BackColor; 
             }
         }
     }

@@ -30,14 +30,14 @@ namespace Elemendid_vormis_TARpv23.MaluMang
             gameSettings.MainLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
 
             gameSettings.TopPanel = new TableLayoutPanel(); // panel for top labels
-            gameSettings.TopPanel.ColumnCount = 3; // одна для отступа слева, вторая для времени, третья для жизней
+            gameSettings.TopPanel.ColumnCount = 3; // одна для уроня, вторая для времени, третья для жизней
             gameSettings.TopPanel.RowCount = 1;
             gameSettings.TopPanel.Dock = DockStyle.Fill;
             gameSettings.TopPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F)); // 50% отступа 
             gameSettings.TopPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 200F)); // фиксированная ширина для лейбла времени
             gameSettings.TopPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
 
-            // таймер
+            // лейбл таймера
             gameSettings.TimeLabel = new Label();
             gameSettings.TimeLabel.AutoSize = false;
             gameSettings.TimeLabel.BorderStyle = BorderStyle.FixedSingle;
@@ -49,11 +49,22 @@ namespace Elemendid_vormis_TARpv23.MaluMang
             gameSettings.TimeLabel.Dock = DockStyle.Fill;
             gameSettings.TimeLabel.Anchor = AnchorStyles.None; // разместить по центру
 
+            // лейбл уровня
+            gameSettings.LevelLabel = new Label();
+            gameSettings.LevelLabel.AutoSize = false;
+            gameSettings.LevelLabel.BorderStyle = BorderStyle.FixedSingle;
+            gameSettings.LevelLabel.Width = 100;
+            gameSettings.LevelLabel.Height = 30;
+            gameSettings.LevelLabel.Font = new Font(gameSettings.LevelLabel.Font.FontFamily, 15.75f);
+            gameSettings.LevelLabel.Text = "Level 1";
+            gameSettings.LevelLabel.TextAlign = ContentAlignment.MiddleCenter;
+            gameSettings.LevelLabel.Dock = DockStyle.Fill;
+            gameSettings.LevelLabel.Anchor = AnchorStyles.None; // разместить по центру
+
             // панель для иконок
             gameSettings.TableLayoutPanel = new TableLayoutPanel();
             gameSettings.TableLayoutPanel.Dock = DockStyle.Fill;
             gameSettings.TableLayoutPanel.CellBorderStyle = TableLayoutPanelCellBorderStyle.Inset;
-            
 
             // add lives label
             gameSettings.LivesLabel = new Label();
@@ -80,11 +91,13 @@ namespace Elemendid_vormis_TARpv23.MaluMang
 
 
             // fill main layout panel 
-            gameSettings.TopPanel.Controls.Add(new Label(), 0, 0); // empty label
+            gameSettings.TopPanel.Controls.Add(gameSettings.LevelLabel, 0, 0);
             gameSettings.TopPanel.Controls.Add(gameSettings.TimeLabel, 1, 0);
             gameSettings.TopPanel.Controls.Add(gameSettings.LivesLabel, 2, 0);
             gameSettings.MainLayoutPanel.Controls.Add(gameSettings.TopPanel, 0, 0);
             gameSettings.MainLayoutPanel.Controls.Add(gameSettings.TableLayoutPanel, 0, 1);
+
+
         }
     }
 }

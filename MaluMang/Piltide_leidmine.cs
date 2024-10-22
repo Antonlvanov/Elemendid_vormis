@@ -4,8 +4,10 @@ namespace Elemendid_vormis_TARpv23.MaluMang
 {
     public partial class Piltide_leidmine : Form
     {
-        private GameSettings gameSettings = new GameSettings();
+        private GameSettings gameSettings;
         private IconManager iconManager;
+        private int countdown;
+        private int lives;
 
         public Piltide_leidmine()
         {
@@ -14,7 +16,7 @@ namespace Elemendid_vormis_TARpv23.MaluMang
             Text = "Matching Game";
 
             gameSettings = new GameSettings();
-            iconManager = new IconManager(gameSettings); // Инициализация менеджера иконок
+            iconManager = new IconManager(gameSettings);
             GameInitializer gameInitializer = new GameInitializer(gameSettings);
             gameInitializer.InitializeGame();
 
@@ -29,25 +31,27 @@ namespace Elemendid_vormis_TARpv23.MaluMang
 
         private void StartGame()
         {
+            lives = gameSettings.Lives;
+            gameSettings.LivesLabel.Text = $"Lives: {lives}";
+            gameSettings.LevelLabel.Text = $"Level: {gameSettings.Level}";
+
+            countdown = gameSettings.CountdownValue;
             gameSettings.TimeLabel.ForeColor = Color.Red;
-            gameSettings.TimeLabel.Text = $"Start in: {gameSettings.CountdownValue}";
+            gameSettings.TimeLabel.Text = $"Start in: {countdown}";
 
             SetupTable();
-            iconManager.AssignIconsToSquares(); 
+            iconManager.AssignIconsToSquares();
 
             ShowAllIcons();
-
             gameSettings.ShowIconsTimer.Start();
         }
 
-        
-
         private void ShowIconsTimer_Tick(object sender, EventArgs e) // таймер показа иконок
         {
-            gameSettings.CountdownValue--;
-            gameSettings.TimeLabel.Text = $"Start in: {gameSettings.CountdownValue}";
+            countdown--;
+            gameSettings.TimeLabel.Text = $"Start in: {countdown}";
 
-            if (gameSettings.CountdownValue == 0)
+            if (countdown == 0)
             {
                 gameSettings.ShowIconsTimer.Stop();
                 gameSettings.TimeLabel.ForeColor = Color.Black;
@@ -61,35 +65,9 @@ namespace Elemendid_vormis_TARpv23.MaluMang
 
         private void IncreaseDifiicultyAndRestart()
         {
-            gameSettings.GridSize += 1;
-            gameSettings.DoubleCountdownValue();  
-            gameSettings.IncreaseLives(); 
+            gameSettings.IncreaseLevel();
 
             StartGame();
-        }
-
-        private void HideAllIcons()
-        {
-            foreach (Control control in gameSettings.TableLayoutPanel.Controls)
-            {
-                Label iconLabel = control as Label;
-                if (iconLabel != null)
-                {
-                    iconLabel.ForeColor = iconLabel.BackColor;
-                }
-            }
-        }
-
-        private void ShowAllIcons()
-        {
-            foreach (Control control in gameSettings.TableLayoutPanel.Controls)
-            {
-                Label iconLabel = control as Label;
-                if (iconLabel != null)
-                {
-                    iconLabel.ForeColor = Color.Black;
-                }
-            }
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -103,24 +81,6 @@ namespace Elemendid_vormis_TARpv23.MaluMang
             gameSettings.SecondClicked = null;
         }
 
-        private void GameTimer_Tick(object sender, EventArgs e)
-        {
-            gameSettings.TimeElapsed++;
-            TimeSpan time = TimeSpan.FromSeconds(gameSettings.TimeElapsed);
-            gameSettings.TimeLabel.Text = "Time: " + time.ToString(@"mm\:ss");
-        }
-
-        private void StartGameTimer()
-        {
-            gameSettings.TimeElapsed = 0;
-            gameSettings.GameTimer.Start();
-        }
-
-        private void StopGameTimer()
-        {
-            gameSettings.GameTimer.Stop();
-        }
-
         private void SetupTable()
         {
             gameSettings.TableLayoutPanel.Controls.Clear();
@@ -132,29 +92,38 @@ namespace Elemendid_vormis_TARpv23.MaluMang
 
             for (int i = 0; i < gameSettings.TableLayoutPanel.ColumnCount; i++)
             {
-                gameSettings.TableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-                gameSettings.TableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
+                gameSettings.TableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F / gameSettings.GridSize));
+                gameSettings.TableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F / gameSettings.GridSize));
             }
+
+            // label storage
+            Control[] labels = new Control[gameSettings.GridSize * gameSettings.GridSize];
+            int index = 0;
 
             for (int row = 0; row < gameSettings.GridSize; row++)
             {
                 for (int col = 0; col < gameSettings.GridSize; col++)
                 {
-                    Label label = new Label();
-                    label.BackColor = Color.CornflowerBlue;
-                    label.AutoSize = false;
-                    label.Dock = DockStyle.Fill;
-                    label.TextAlign = ContentAlignment.MiddleCenter;
-                    label.Font = new Font("Webdings", 48, FontStyle.Bold);
-                    label.Text = "c";
-                    label.ForeColor = label.BackColor;
-
+                    Label label = gameSettings.CreateLabel();
                     label.Click += Label_Click;
 
-                    gameSettings.TableLayoutPanel.Controls.Add(label, col, row);
+                    gameSettings.TableLayoutPanel.SetColumn(label, col);
+                    gameSettings.TableLayoutPanel.SetRow(label, row);
+                    labels[index++] = label;
                 }
             }
+
+            int totalLabels = gameSettings.GridSize * gameSettings.GridSize;
+            if (totalLabels % 2 != 0 && labels.Length > 0)
+            {
+                // remove last label
+                Array.Resize(ref labels, labels.Length - 1);
+            }
+
+            // add to table controls
+            gameSettings.TableLayoutPanel.Controls.AddRange(labels);
         }
+
         private void CheckForWinner()
         {
             foreach (Control control in gameSettings.TableLayoutPanel.Controls)
@@ -202,10 +171,10 @@ namespace Elemendid_vormis_TARpv23.MaluMang
 
             if (gameSettings.FirstClicked.Tag.ToString() != gameSettings.SecondClicked.Tag.ToString())
             {
-                gameSettings.Lives--;
-                gameSettings.LivesLabel.Text = $"Lives: {gameSettings.Lives}";
+                lives--;
+                gameSettings.LivesLabel.Text = $"Lives: {lives}";
 
-                if (gameSettings.Lives == 0)
+                if (lives == 0)
                 {
                     StopGameTimer();
                     MessageBox.Show("You Lost", "Game Over");
@@ -228,12 +197,46 @@ namespace Elemendid_vormis_TARpv23.MaluMang
                 gameSettings.Timer.Start();
             }
         }
-        private void PiltideLeidmine_FormClosing(object sender, FormClosingEventArgs e)
+
+        private void GameTimer_Tick(object sender, EventArgs e)
         {
-            gameSettings.ShowIconsTimer.Stop();
-            gameSettings.Timer.Stop();
-            gameSettings.GameTimer.Stop();
-            this.Close(); // вместо Application.Exit()
+            gameSettings.TimeElapsed++;
+            TimeSpan time = TimeSpan.FromSeconds(gameSettings.TimeElapsed);
+            gameSettings.TimeLabel.Text = "Time: " + time.ToString(@"mm\:ss");
         }
+
+        private void StartGameTimer()
+        {
+            gameSettings.TimeElapsed = 0;
+            gameSettings.GameTimer.Start();
+        }
+
+        private void StopGameTimer()
+        {
+            gameSettings.GameTimer.Stop();
+        }
+        private void HideAllIcons()
+        {
+            foreach (Control control in gameSettings.TableLayoutPanel.Controls)
+            {
+                Label iconLabel = control as Label;
+                if (iconLabel != null)
+                {
+                    iconLabel.ForeColor = iconLabel.BackColor;
+                }
+            }
+        }
+        private void ShowAllIcons()
+        {
+            foreach (Control control in gameSettings.TableLayoutPanel.Controls)
+            {
+                Label iconLabel = control as Label;
+                if (iconLabel != null)
+                {
+                    iconLabel.ForeColor = Color.Black;
+                }
+            }
+        }
+
     }
 }
